@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                String             @id @default(uuid())
+  name              String
+  email             String             @unique
+  password          String
+  role              Role               @default(STAFF)
+  resetToken        String?            @unique
+  resetTokenExpiry  DateTime?
+  products          Product[]
+  transactions      StockTransaction[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+model Product {
+  id           String             @id @default(uuid())
+  name         String
+  sku          String             @unique
+  category     String
+  quantity     Float              @default(0)
+  minThreshold Float              @default(10)
+  unit         String             @default("pcs")
+  userId       String
+  user         User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  transactions StockTransaction[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+}
+
+model StockTransaction {
+  id        String   @id @default(uuid())
+  type      TxType
+  quantity  Float
+  note      String?
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+}
+
+enum TxType {
+  IN
+  OUT
+  ADJUST
+  DAMAGED
+}

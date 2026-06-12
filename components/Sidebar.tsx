@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -18,7 +19,14 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AlertBadge } from "./AlertBadge";
 
-const adminNav = [
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: boolean;
+};
+
+const adminNav: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/users", label: "Users", icon: Users },
   { href: "/stock", label: "All Stock", icon: Package },
@@ -26,7 +34,7 @@ const adminNav = [
   { href: "/alerts", label: "Alerts", icon: Bell, badge: true },
 ];
 
-const staffNav = [
+const staffNav: NavItem[] = [
   { href: "/stock", label: "My Stock", icon: Package },
   { href: "/update", label: "Update Stock", icon: RefreshCw },
 ];

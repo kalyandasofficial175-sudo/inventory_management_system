@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import type { UserWithCount } from "@/types";
+import type { Role } from "@/types";
 
 interface UserFormProps {
   user?: UserWithCount | null;
@@ -23,7 +24,12 @@ interface UserFormProps {
 export function UserForm({ user, onSuccess, onCancel }: UserFormProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string;
+    email: string;
+    password: string;
+    role: Role;
+  }>({
     name: user?.name ?? "",
     email: user?.email ?? "",
     password: "",
@@ -109,7 +115,7 @@ export function UserForm({ user, onSuccess, onCancel }: UserFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="role">Role</Label>
-        <Select value={form.role} onValueChange={(v) => setForm({ ...form, role: v })}>
+        <Select value={form.role} onValueChange={(v) => setForm({ ...form, role: v as Role })}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>

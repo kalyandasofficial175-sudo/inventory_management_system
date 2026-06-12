@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AlertBadge } from "./AlertBadge";
+import { InstallPWA } from "./InstallPWA";
 
 type NavItem = {
   href: string;
@@ -91,6 +92,7 @@ export function Sidebar() {
             {session?.user?.role}
           </span>
         </div>
+        <InstallPWA />
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
           className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"

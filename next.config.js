@@ -11,6 +11,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone', // 👈 This fixes the Docker COPY error
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client", "bcryptjs", "exceljs"],
   },
